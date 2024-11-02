@@ -1,8 +1,15 @@
-import DrawPolygon from '@mapbox/mapbox-gl-draw/src/modes/draw_polygon';
-import {geojsonTypes, cursors, types, updateActions, modes, events} from '@mapbox/mapbox-gl-draw/src/constants';
 import simplify from "@turf/simplify";
+import MapboxGlDraw from '@mapbox/mapbox-gl-draw';
+const {
+    	geojsonTypes,
+    	cursors,
+    	types,
+    	updateActions,
+    	modes,
+    	events,
+    } = MapboxGlDraw.constants;
 
-const FreehandMode = Object.assign({}, DrawPolygon)
+const FreehandMode = Object.assign({}, MapboxGlDraw.modes.draw_polygon);
 
 FreehandMode.onSetup = function() {
     const polygon = this.newFeature({
@@ -72,12 +79,4 @@ FreehandMode.simplify = function(polygon) {
   });
 }
 
-FreehandMode.onStop = function (state) {
-  DrawPolygon.call(this, state)
-  setTimeout(() => {
-    if (!this.map || !this.map.dragPan) return;
-    this.map.dragPan.enable();
-  }, 0);
-};
-  
 export default FreehandMode
